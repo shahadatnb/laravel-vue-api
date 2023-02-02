@@ -11,6 +11,12 @@ use App\Http\Requests\ProjectRequest;
 
 class ProjectsContoller extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
+
+    
     public function index()
     {
         //

@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -33,5 +34,45 @@ class Handler extends ExceptionHandler
     public function register()
     {
         //
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->is('api*')) {
+            if ($e instanceof \Illuminate\Validation\ValidationException) {
+                return response([
+                    'status' => 'error',
+                    'error' => $e->errors()
+                ], 422);
+            }
+
+            if ($e instanceof \Illuminate\Auth\Access\AuthorizationException) {
+                return response([
+                    'status' => 'error',
+                    'error' => $e->getMessage()
+                ], 403);
+            }
+
+            if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException ||
+                $e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+            ) {
+                return response([
+                    'status' => 'error',
+                    'error' => 'Resource Not Found.'
+                ], 404);
+            }
+
+            if ($e instanceof \Illuminate\Auth\AuthenticationException) {
+                return response([
+                    'status' => 'error',
+                    'error' => $e->getMessage()
+                ], 401);
+            }
+
+            return response(['status' => 'Error', 'error' => 'Something Went Wrong'], 500);
+
+        }
+
+        parent::render($request, $e);
     }
 }
