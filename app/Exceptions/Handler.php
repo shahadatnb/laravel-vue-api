@@ -38,6 +38,7 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        //dd($e);
         if ($request->is('api*')) {
             if ($e instanceof \Illuminate\Validation\ValidationException) {
                 return response([
@@ -68,7 +69,6 @@ class Handler extends ExceptionHandler
                     'error' => $e->getMessage()
                 ], 401);
             }
-
             return response(['status' => 'Error', 'error' => 'Something Went Wrong'], 500);
 
         }

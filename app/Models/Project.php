@@ -18,4 +18,13 @@ class Project extends Model
     {
         return $this->hasMany(\App\Models\Task::class);
     }
+
+    public function getImagePathAttribute() 
+    {
+        if( is_null( $this->image ) ) {
+            return null;
+        }
+
+        return asset('storage/'. $this->image);
+    }
 }

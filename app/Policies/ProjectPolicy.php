@@ -96,4 +96,10 @@ class ProjectPolicy
     {
         //
     }
+    
+    public function upload(User $user, Project $project)
+    {
+        //
+        return $user->id === $project->user_id;
+    }
 }
