@@ -6,7 +6,8 @@ import Projects from './components/projects/Projects.vue';
 const router = createRouter({
     history: createWebHistory(),
     routes:[
-        { path: '/login', component: Signin, name:'login'},
+        { path: '/', component: Signin, name:'home'},
+        { path: '/login', component: Signin, name:'login', alias: '/'},
         { path: '/dashboard', component: Dashboard, name:'dashboard'},
         { path: '/projects', component: Projects, name:'projects'},
     ]
