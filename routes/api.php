@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/logout', function (Request $request) {
     $user = $request->user();
     $user->tokens()->delete();
     Auth::guard('web')->logout();
-    return ['status'=>'OK'];
+    return ['status'=>'ok'];
 
 });
 

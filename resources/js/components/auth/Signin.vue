@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default{
     data(){
         return {
@@ -29,6 +30,11 @@ export default{
             'errorMsg': ''
         }
     },
+    computed:{
+        ...mapGetters([
+            'authenticated'
+        ])
+    },
     methods:{
         async handleLogin(){
             //alert(this.email)
@@ -36,11 +42,15 @@ export default{
 
             try{
                 await this.$store.dispatch('signIn', {email:this.email, password:this.password});
-                console.log(this.user)
-                //this.$router.push({name:'dashboard'});
+                this.$router.push({name:'dashboard'});
             } catch(e){
                 this.errorMsg = e;
             }            
+        }
+    },
+    mounted(){
+        if( this.authenticated ){
+            //this.$router.push({name:'dashboard'});
         }
     }
 }

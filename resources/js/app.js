@@ -7,10 +7,13 @@ import store from './store';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000/';
+axios.defaults.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
 
 import App from './components/App.vue';
 
-const app = createApp(App)
-app.use(router);
-app.use(store);
-app.mount('#app');
+store.dispatch('getUser').then( ()=> {
+    const app = createApp(App)
+    app.use(router);
+    app.use(store);
+    app.mount('#app');
+});
